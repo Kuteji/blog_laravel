@@ -1,0 +1,21 @@
+Creacion de ...
+*modelos
+*controladores
+*migraciones
+
+*borrado de tablas
+*ejecucion de migraciones
+*creacion de seeders
+*creacion de tablas relacionales
+*autenticacion
+*creacion y registro de middlewares
+*insercion de datos
+*validacion de formularios
+*manejo de rutas
+*alertas flash
+
+plugins...
+*datatables
+*date-picker
+*summernote
+*select
