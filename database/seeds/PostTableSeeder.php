@@ -21,15 +21,15 @@ class PostTableSeeder extends Seeder
         Tag::truncate();
 
         $category = new Category();
-        $category->name = "Business";
+        $category->name = "Negocios Internacionales";
         $category->save();
 
         $category = new Category();
-        $category->name = "Science";
+        $category->name = "Ciencia de Datos";
         $category->save();
 
         $category = new Category();
-        $category->name = "Movies";
+        $category->name = "Cine Mexicano";
         $category->save();
 
 

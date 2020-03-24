@@ -14,7 +14,7 @@ class pagesController extends Controller
         // $posts = Post::published()->get();
         //pos defecto los pagina de 15 en 15
         // $posts = Post::published()->simplePaginate(1);
-        $posts = Post::published()->paginate(3);
+        $posts = Post::published()->paginate();
 
         // pasamos los posts como parametro a la ruta
         return view('welcome',compact('posts'));

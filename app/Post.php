@@ -4,6 +4,7 @@ namespace App;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Post extends Model
 {
@@ -48,6 +49,34 @@ class Post extends Model
          $query->whereNotNull('published_at') // donde las fechas no sean nulas
                 ->where('published_at', '<=', Carbon::now() ) // donde las fechas no sean myores a la fecha actual
                 ->latest('published_at');        
+    }
+
+    public function setTitleAttribute($title)
+    {
+        $this->attributes['title'] = $title;
+        $this->attributes['url'] = Str::slug($title);
+    }
+
+    public function setPublishedAtAttribute($published_at)
+    {
+        $this->attributes['published_at'] = $published_at ? Carbon::parse($published_at) : null;// dejamos que carbon formatee la fecha para que no haya errores
+    }
+
+    public function setCategoryIdAttribute($category)
+    {
+        $this->attributes['category_id'] = Category::find($category)
+                                    ? $category
+                                    : Category::create(['name' => $category])->id;
+    }
+
+    public function syncTags($tags)
+    {
+        $tagIds = collect($tags)->map(function($tag){
+            return Tag::find($tag) ? $tag : Tag::create(['name' => $tag])->id;
+        });
+
+          // adjuntamos el valor del req a la columna
+          return $this->tags()->sync($tagIds);
     }
 
 }

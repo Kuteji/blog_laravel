@@ -97,16 +97,16 @@
                         <!-- /.input group -->
                       </div>
                       <div class="form-group">
-                          <label {{ $errors->has('category') ? 'class=text-danger' : ''}}>Categorias</label>
-                          <select class="form-control {{ $errors->has('category') ? 'border border-danger' : ''}}" name="category">
+                          <label {{ $errors->has('category_id') ? 'class=text-danger' : ''}}>Categorias</label>
+                          <select class="form-control select2{{ $errors->has('category_id') ? 'border border-danger' : ''}}" name="category_id">
                               <option value="">Selecciona una categoria</option>
                               @foreach($categories as $category)
                                 <option value="{{ $category->id }}"
-                                    {{ old('category', $post->category_id /*valor default*/) == $category->id ? 'selected' : '' }}
+                                    {{ old('category_id', $post->category_id /*valor default*/) == $category->id ? 'selected' : '' }}
                                 >{{ $category->name }}</option>
                               @endforeach
                           </select>
-                          {!! $errors->first('category', '<span class="form-text text-danger">:message</span>' ) !!}
+                          {!! $errors->first('category_id', '<span class="form-text text-danger">:message</span>' ) !!}
                       </div>
                       <div class="form-group">
                          <label {{ $errors->has('tags') ? 'class=text-danger' : ''}}>Etiquetas</label> 
@@ -175,7 +175,9 @@
     })
   })
 
- $('.select2').select2();
+ $('.select2').select2({
+     tags: true
+ });
 
  const myDropzone = new Dropzone('.dropzone', {
      url: '/admin/posts/{{ $post->url }}/photos',

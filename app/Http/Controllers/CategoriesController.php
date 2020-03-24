@@ -12,7 +12,7 @@ class CategoriesController extends Controller
 
         // retorna los de la relacion posts definida en el modelo
         return view('welcome', [
-            'category' => $category,
+            'title' => "Publicaciones de la categoria { $category->name }",
             'posts' => $category->posts()->paginate()
         ]);
     }

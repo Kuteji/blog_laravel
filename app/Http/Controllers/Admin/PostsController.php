@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use App\Tag;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StorePostRequest;
 
 class PostsController extends Controller
 {
@@ -34,10 +35,7 @@ class PostsController extends Controller
         $this->validate($request, ['title' => 'required']);
 
         //guardamos en la base de datos y asignamos a la variable
-        $post = Post::create([
-            'title' => $request->get('title'),
-            'url' => Str::slug($request->get('title'))
-        ]);
+        $post = Post::create($request->only('title'));
 
         // redireccionamos y mandamos post como parametro
         return redirect()->route('admin.posts.edit', $post);
@@ -53,31 +51,23 @@ class PostsController extends Controller
 
     }
 
-    public function update(Post $post, Request $request)
+    public function update(Post $post, StorePostRequest $request)
     {
-        // return Post::create($request->all());
-        // dd($request->get('tags'));
-
-        $this->validate($request, [
-            'title' => 'required',
-            'body' => 'required',
-            'category' => 'required',
-            'excerpt' => 'required',
-            'tags' => 'required'
-        ]);
 
         $post->title = $request->get('title');
-        $post->url = Str::slug($request->get('title'));
         $post->body = $request->get('body');
         $post->iframe = $request->get('iframe');
         $post->excerpt = $request->get('excerpt');
-        $post->published_at = $request->has('published_at') ? Carbon::parse($request->get('published_at')) : null;// dejamos que carbon formatee la fecha para que no haya errores
-        $post->category_id = $request->get('category');
-
+        $post->published_at = $request->get('published_at');
+        $post->category_id = $request->get('category_id');
         $post->save();
 
-        // adjuntamos el valor del req a la columna
-        $post->tags()->sync($request->get('tags'));
+        // $post->update($request->except('tags'));
+
+
+        $post->syncTags($request->get('tags'));
+
+       
 
         return redirect()->route('admin.posts.edit', $post)->with('flash', 'Tu publicacion ha sido Guardada');
     }
