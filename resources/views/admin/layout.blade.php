@@ -235,11 +235,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="/adminlte/plugins/datatables/jquery.dataTables.js"></script>
 <script src="/adminlte/plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
 
+
+{{--unless -> a menos que --}}
+@unless(request()->is('admin/posts/*')) 
+  @include('admin.posts.create')
+@endunless
+
 @stack('scripts')
 
 <!-- AdminLTE App -->
 <script src="/adminlte/js/adminlte.min.js"></script>
 
-@include('admin.posts.create')
 </body>
 </html>
