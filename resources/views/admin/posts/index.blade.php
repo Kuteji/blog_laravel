@@ -47,7 +47,17 @@
                             <td>
                                 <a href="{{ route('post.show', $post) }}" target="_blank" class="btn btn-sm btn-dark"><i class="fa fa-eye"></i></a>
                                 <a href="{{ route('admin.posts.edit', $post) }}" class="btn btn-sm btn-info"><i class="fa fa-pen"></i></a>
-                                <a href="#" class="btn btn-sm btn-danger"><i class="fa fa-times"></i></a>
+                                
+                                <form method="POST"
+                                      style="display: inline"
+                                      action="{{ route('admin.posts.destroy', $post) }}"
+                                      >
+                                  {{ method_field('DELETE') }} {{ csrf_field() }} 
+                                  <button class="btn btn-sm btn-danger"
+                                      onclick="return confirm('¿Estas seguo de eliminar esta publicacion?')"
+                                  ><i class="fa fa-times"></i></button>
+                                </form>
+                                
                             </td>
                         </tr>
                     @endforeach

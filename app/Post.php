@@ -17,6 +17,17 @@ class Post extends Model
     protected $dates = ['published_at'];
 
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function($post){
+             // quitamos todas las etiquetas asignadas a este post
+            $post->tags()->detach();
+            //Eliminamos las fotos asociadas
+            $post->photos->each->delete();
+        });
+    }
 
 
     // sobreescribimos el metodo que obtiene la llave de la rura
