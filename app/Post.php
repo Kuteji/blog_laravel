@@ -9,7 +9,9 @@ use Illuminate\Support\Str;
 class Post extends Model
 {
     // deshabilitamos la proteccion de asignacion masiva
-    protected $guarded = [];
+    protected $fillable = [
+        'title', 'body', 'iframe', 'excerpt', 'published_at', 'category_id'
+    ];
 
     // convertimos a una instancia de carbon para poder usar los metodos de fechas
     protected $dates = ['published_at'];

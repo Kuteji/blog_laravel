@@ -62,7 +62,8 @@ class PostsController extends Controller
         // $post->category_id = $request->get('category_id');
         // $post->save();
 
-         $post->update($request->except(['tags','files']));
+        //  $post->update($request->except(['tags','files']));
+         $post->update($request->all());
 
 
         $post->syncTags($request->get('tags'));
