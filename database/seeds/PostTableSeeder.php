@@ -6,6 +6,7 @@ use App\Category;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Storage;
 
 class PostTableSeeder extends Seeder
 {
@@ -16,6 +17,9 @@ class PostTableSeeder extends Seeder
      */
     public function run()
     {
+
+        Storage::disk('public')->deleteDirectory('posts');
+
         Post::truncate(); // limpiamos la tabla
         Category::truncate();
         Tag::truncate();
