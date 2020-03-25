@@ -54,15 +54,15 @@ class PostsController extends Controller
     public function update(Post $post, StorePostRequest $request)
     {
 
-        $post->title = $request->get('title');
-        $post->body = $request->get('body');
-        $post->iframe = $request->get('iframe');
-        $post->excerpt = $request->get('excerpt');
-        $post->published_at = $request->get('published_at');
-        $post->category_id = $request->get('category_id');
-        $post->save();
+        // $post->title = $request->get('title');
+        // $post->body = $request->get('body');
+        // $post->iframe = $request->get('iframe');
+        // $post->excerpt = $request->get('excerpt');
+        // $post->published_at = $request->get('published_at');
+        // $post->category_id = $request->get('category_id');
+        // $post->save();
 
-        // $post->update($request->except('tags'));
+         $post->update($request->except(['tags','files']));
 
 
         $post->syncTags($request->get('tags'));
