@@ -3,7 +3,7 @@
 @section('content')
 <section class="posts container">
     @if(isset($title))
-        <h3>Publicaciones de l categoria {{ $title }} </h3>
+        <h3>{{ $title }} </h3>
     @endif
 {{-- data-masonry='{"itemSelector": ".grid-item", "columnWidth": 464 }' --}}
     @foreach ($posts as $post)
