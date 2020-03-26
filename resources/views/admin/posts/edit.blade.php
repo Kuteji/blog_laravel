@@ -92,7 +92,7 @@
                           <div class="input-group-prepend">
                             <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                           </div>
-                            <input type="date" class="form-control" name="published_at" value="{{ old('published_at', $post->published_at ? $post->published_at->format('m/d/Y') : null /*valor default*/)}}">
+                            <input data-toggle="datepicker" class="form-control" name="published_at" value="{{ old('published_at', $post->published_at ? $post->published_at->format('m/d/Y') : null /*valor default*/)}}">
                         </div>
                         <!-- /.input group -->
                       </div>
@@ -149,6 +149,8 @@
 
 @push('styles')
 
+<link  href="/css/datepicker.min.css" rel="stylesheet">
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.0/dropzone.css">
     <!-- summernote -->
  <link rel="stylesheet" href="/adminlte/plugins/summernote/summernote-bs4.css">
@@ -157,7 +159,7 @@
 @endpush 
 
 @push('scripts')
-
+<script src="/js/datepicker.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.0/min/dropzone.min.js"></script>
 
 <!-- Summernote -->
@@ -165,6 +167,7 @@
 <!-- Select2 -->
 <script src="/adminlte/plugins/select2/js/select2.full.min.js"></script>
 <script>
+$('[data-toggle="datepicker"]').datepicker();    
   $(function () {
     // Summernote
     $('.textarea').summernote({

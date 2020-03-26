@@ -32,11 +32,13 @@ class PostsController extends Controller
     public function store(Request $request)
     {
         // hacemos requerido el campo
-        $this->validate($request, ['title' => 'required']);
+        $this->validate($request, [
+            'title' => 'required|min:3'
+        ]);
 
         //guardamos en la base de datos y asignamos a la variable
         $post = Post::create($request->only('title'));
-
+       
         // redireccionamos y mandamos post como parametro
         return redirect()->route('admin.posts.edit', $post);
     }
@@ -54,21 +56,34 @@ class PostsController extends Controller
     public function update(Post $post, StorePostRequest $request)
     {
 
-        $post->title = $request->get('title');
-        $post->body = $request->get('body');
-        $post->iframe = $request->get('iframe');
-        $post->excerpt = $request->get('excerpt');
-        $post->published_at = $request->get('published_at');
-        $post->category_id = $request->get('category_id');
-        $post->save();
+        // $post->title = $request->get('title');
+        // $post->body = $request->get('body');
+        // $post->iframe = $request->get('iframe');
+        // $post->excerpt = $request->get('excerpt');
+        // $post->published_at = $request->get('published_at');
+        // $post->category_id = $request->get('category_id');
+        // $post->save();
 
-        // $post->update($request->except('tags'));
+        //  $post->update($request->except(['tags','files']));
+         $post->update($request->all());
 
 
         $post->syncTags($request->get('tags'));
 
        
 
-        return redirect()->route('admin.posts.edit', $post)->with('flash', 'Tu publicacion ha sido Guardada');
+        return redirect()
+                ->route('admin.posts.edit', $post)
+                ->with('flash', 'La publicacion ha sido Guardada');
+    }
+
+    public function destroy(Post $post)
+    {
+        // eliminamos el post
+        $post->delete();
+        
+        return redirect()
+            ->route('admin.posts.index')
+            ->with('flash', 'La publicacion ha sido Eliminada con Exito');
     }
 }

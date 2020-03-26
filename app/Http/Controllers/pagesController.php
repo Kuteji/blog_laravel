@@ -17,6 +17,21 @@ class pagesController extends Controller
         $posts = Post::published()->paginate();
 
         // pasamos los posts como parametro a la ruta
-        return view('welcome',compact('posts'));
+        return view('pages.home',compact('posts'));
+    }
+
+    public function about()
+    {
+        return view('pages.about');
+    }
+
+    public function archive()
+    {
+        return view('pages.archive');
+    }
+
+    public function contact()
+    {
+        return view('pages.contact');
     }
 }

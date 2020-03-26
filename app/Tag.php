@@ -16,6 +16,7 @@ class Tag extends Model
 
     public function posts()
     {
+        //un post tiene muchas etiquetas
         return $this->belongsToMany(Post::class);
     }
 

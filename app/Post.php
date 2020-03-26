@@ -9,12 +9,25 @@ use Illuminate\Support\Str;
 class Post extends Model
 {
     // deshabilitamos la proteccion de asignacion masiva
-    protected $guarded = [];
+    protected $fillable = [
+        'title', 'body', 'iframe', 'excerpt', 'published_at', 'category_id'
+    ];
 
     // convertimos a una instancia de carbon para poder usar los metodos de fechas
     protected $dates = ['published_at'];
 
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function($post){
+             // quitamos todas las etiquetas asignadas a este post
+            $post->tags()->detach();
+            //Eliminamos las fotos asociadas
+            $post->photos->each->delete();
+        });
+    }
 
 
     // sobreescribimos el metodo que obtiene la llave de la rura
@@ -51,11 +64,45 @@ class Post extends Model
                 ->latest('published_at');        
     }
 
-    public function setTitleAttribute($title)
+    // REESCRIBIENDO EL METODO CREATE
+    public static function create(array $attributes = [])
     {
-        $this->attributes['title'] = $title;
-        $this->attributes['url'] = Str::slug($title);
+        // Devuelve el post recien creado
+        $post = static::query()->create($attributes);
+
+        $post->generateUrl();
+
+
+        return $post;
     }
+
+    public function generateUrl()
+    {
+        $url = Str::slug($this->title);
+
+        if ($this->whereUrl($url)->exists()) {
+           $url = "{$url}-{$this->id}";
+        }
+
+
+        $this->url = $url;
+
+        $this->save();
+    }
+
+    // public function setTitleAttribute($title)
+    // {
+    //     $this->attributes['title'] = $title;
+        
+    //     $originalUrl =  $url = Str::slug($title);
+    //     $count = 1;
+
+    //     while ( Post::where('url', $url)->exists() ) {
+    //         $url = "{$originalUrl}-" . ++$count;
+    //     }
+
+    //     $this->attributes['url'] = $url;
+    // }
 
     public function setPublishedAtAttribute($published_at)
     {
