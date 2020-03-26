@@ -1,6 +1,14 @@
 <?php
 
-Route::get('/', 'PagesController@home' );
+Route::get('/', 'PagesController@home' )->name('pages.home');
+Route::get('/nosotros', 'PagesController@about' )->name('pages.about');
+Route::get('/archivo', 'PagesController@archive' )->name('pages.archive');
+Route::get('/contacto', 'PagesController@contact' )->name('pages.contact');
+
+
+
+
+
 // el parametro post dee concidir con el del post controller
 Route::get('blog/{post}', 'PostController@show')->name('post.show');
 Route::get('categorias/{category}', 'CategoriesController@show')->name('categories.show');
