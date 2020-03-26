@@ -64,11 +64,45 @@ class Post extends Model
                 ->latest('published_at');        
     }
 
-    public function setTitleAttribute($title)
+    // REESCRIBIENDO EL METODO CREATE
+    public static function create(array $attributes = [])
     {
-        $this->attributes['title'] = $title;
-        $this->attributes['url'] = Str::slug($title);
+        // Devuelve el post recien creado
+        $post = static::query()->create($attributes);
+
+        $post->generateUrl();
+
+
+        return $post;
     }
+
+    public function generateUrl()
+    {
+        $url = Str::slug($this->title);
+
+        if ($this->whereUrl($url)->exists()) {
+           $url = "{$url}-{$this->id}";
+        }
+
+
+        $this->url = $url;
+
+        $this->save();
+    }
+
+    // public function setTitleAttribute($title)
+    // {
+    //     $this->attributes['title'] = $title;
+        
+    //     $originalUrl =  $url = Str::slug($title);
+    //     $count = 1;
+
+    //     while ( Post::where('url', $url)->exists() ) {
+    //         $url = "{$originalUrl}-" . ++$count;
+    //     }
+
+    //     $this->attributes['url'] = $url;
+    // }
 
     public function setPublishedAtAttribute($published_at)
     {

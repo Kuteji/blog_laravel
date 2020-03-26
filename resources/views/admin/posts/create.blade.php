@@ -26,6 +26,9 @@
                          >
                          {!! $errors->first('title', '<span class="form-text text-danger">:message</span>' ) !!}
                  </div>
+
+                
+
              </div>
              <div class="modal-footer">
                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
